@@ -1,5 +1,4 @@
 author: ToniTang
-database: true
 description: Check whether staff are online and query it to a database available for web retrieval.
 main: us.rpvp.onlinestaff.OnlineStaff
 name: OnlineStaff

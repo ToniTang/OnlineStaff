@@ -1,5 +1,5 @@
 mysql:
-    hostname: localhost
-    username: root
-    password:
-    database: onlinestaff
+  hostname: localhost
+  username: root
+  password: 
+  database: onlinestaff
