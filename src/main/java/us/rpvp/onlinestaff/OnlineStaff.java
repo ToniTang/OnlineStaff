@@ -23,15 +23,14 @@ public class OnlineStaff extends JavaPlugin {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String Label, String[] args) {
-        Player player = (Player) sender;
-        if(player.hasPermission("onlinestaff.reload")) {
+        if(sender.hasPermission("onlinestaff.reload")) {
             if(cmd.getLabel().equalsIgnoreCase("osreload")) {
                 sender.sendMessage(ChatColor.AQUA + "[OnlineStaff]" + ChatColor.GOLD + " Configuration reloaded.");
                 this.reloadConfig();
             }
         }
         else {
-            player.sendMessage("No Permission");
+            sender.sendMessage(ChatColor.DARK_RED + "You don't have permission to do this!");
         }
         return false;
     }
