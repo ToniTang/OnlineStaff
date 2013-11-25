@@ -10,6 +10,8 @@ There is only one command currently that will allow reloading of the configurati
 
 **Command**: /osreload
 
+
 **Permission**: onlinestaff.reload
+
 
 **Description**: Reload OnlineStaff's configuration file.
