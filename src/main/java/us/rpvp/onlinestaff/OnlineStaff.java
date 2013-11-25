@@ -18,6 +18,7 @@ public class OnlineStaff extends JavaPlugin implements Listener {
         getLogger().info(String.format("[v%s] OnlineStaff has been enabled.", getDescription().getVersion()));
         getLogger().info("===========================================");
         getServer().getPluginManager().registerEvents(this, this);
+        this.saveDefaultConfig();
     }
 
     public void onDisable() {
