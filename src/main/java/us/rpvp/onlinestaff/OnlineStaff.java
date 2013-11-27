@@ -3,6 +3,7 @@ package us.rpvp.onlinestaff;
 import java.lang.String;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.bukkit.ChatColor;
@@ -35,26 +36,27 @@ public class OnlineStaff extends JavaPlugin implements Listener {
         getLogger().info("===========================================");
     }
 
-    public void startConnection(String hostname, String username, String password, String database) {
-        Connection con = null;
+    public boolean startConnection(String hostname, String username, String password, String database) {
+        Connection con;
         Statement str;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con = DriverManager.getConnection("jdbc:mysql://" + hostname + ":3306/" + database, username, password);
-            System.out.println("[OnlineStaff] Successfully connected to database");
-            System.out.println(con);
             str = con.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS `OnlineStaff` ("
                     + "  `player` varchar(16) NOT NULL,"
                     + "  `last_online` int(16) NOT NULL,"
                     + "  `is_online` tinyint(1) NOT NULL"
                     + ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-            str.executeQuery(query);
+            str.executeUpdate(query);
             str.close();
         }
         catch (Exception e) {
             System.out.println("[OnlineStaff] Failed to connect to database");
+            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String Label, String[] args) {
