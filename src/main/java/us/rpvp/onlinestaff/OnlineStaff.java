@@ -15,11 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class OnlineStaff extends JavaPlugin implements Listener {
 
-    String hostname = getConfig().getString("mysql.hostname");
-    String username = getConfig().getString("mysql.username");
-    String password = getConfig().getString("mysql.password");
-    String database = getConfig().getString("mysql.database");
-
     public void onEnable() {
         getLogger().info("===========================================");
         getLogger().info(String.format("[v%s] OnlineStaff has been enabled.", getDescription().getVersion()));
@@ -34,6 +29,11 @@ public class OnlineStaff extends JavaPlugin implements Listener {
         getLogger().info(String.format("[v%s] OnlineStaff has been disabled.", getDescription().getVersion()));
         getLogger().info("===========================================");
     }
+
+    String hostname = getConfig().getString("mysql.hostname");
+    String username = getConfig().getString("mysql.username");
+    String password = getConfig().getString("mysql.password");
+    String database = getConfig().getString("mysql.database");
 
     public void startConnection(String hostname, String username, String password, String database) {
         Connection con = null;
