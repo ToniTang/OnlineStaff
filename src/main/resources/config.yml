@@ -2,4 +2,4 @@ mysql:
     hostname: localhost
     username: root
     password: ""
-    database: onlinestaff
+    database: mc_onlinestaff
