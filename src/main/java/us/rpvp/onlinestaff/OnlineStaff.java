@@ -1,6 +1,8 @@
 package us.rpvp.onlinestaff;
 
 import java.lang.String;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,18 +15,36 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class OnlineStaff extends JavaPlugin implements Listener {
 
+    String hostname = getConfig().getString("mysql.hostname");
+    String username = getConfig().getString("mysql.username");
+    String password = getConfig().getString("mysql.password");
+    String database = getConfig().getString("mysql.database");
+
     public void onEnable() {
         getLogger().info("===========================================");
         getLogger().info(String.format("[v%s] OnlineStaff has been enabled.", getDescription().getVersion()));
         getLogger().info("===========================================");
         getServer().getPluginManager().registerEvents(this, this);
         this.saveDefaultConfig();
+        startConnection(hostname, username, password, database);
     }
 
     public void onDisable() {
         getLogger().info("===========================================");
         getLogger().info(String.format("[v%s] OnlineStaff has been disabled.", getDescription().getVersion()));
         getLogger().info("===========================================");
+    }
+
+    public void startConnection(String hostname, String username, String password, String database) {
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            con = DriverManager.getConnection("jdbc:mysql://" + hostname + ":3306" + database, username, password);
+            System.out.println("[OnlineStaff] Successfully connected to database");
+        }
+        catch (Exception e) {
+            System.out.println("[OnlineStaff] Failed to connect to database");
+        }
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String Label, String[] args) {
