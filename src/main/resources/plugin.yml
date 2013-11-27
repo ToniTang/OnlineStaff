@@ -1,11 +1,11 @@
-author: ToniTang
-description: Check whether staff are online and query it to a database available for web retrieval.
-main: us.rpvp.onlinestaff.OnlineStaff
 name: OnlineStaff
+main: us.rpvp.onlinestaff.OnlineStaff
+description: Check whether staff are online and query it to a database available for web retrieval.
 url: http://realmsofpvp.net/
+author: ToniTang
 version: '0.1'
 commands:
-    osreload:
-        description: Reload the OnlineStaff configuration
-        usage: /osreload
-        permission: onlinestaff.osreload
+  osreload:
+    description: Reload the OnlineStaff configuration
+    usage: /osreload
+    permission: onlinestaff.osreload
