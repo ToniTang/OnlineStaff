@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>us.rpvp.onlinestaff</groupId>
     <artifactId>OnlineStaff</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>OnlineStaff</name>
     <url>http://realmsofpvp.net/</url>
     <repositories>
