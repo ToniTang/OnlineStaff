@@ -18,6 +18,7 @@ There is only one command currently that will allow reloading of the configurati
 
 
 **Permission node for staff groups / players**
+
 **Permission**: onlinestaff.staff
 
 Web Usage
