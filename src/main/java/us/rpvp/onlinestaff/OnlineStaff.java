@@ -14,8 +14,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.jdbc.odbc.ee.ConnectionHandler;
 
 public class OnlineStaff extends JavaPlugin implements Listener {
+
+    Connection con;
 
     public void onEnable() {
         getLogger().info("===========================================");
@@ -37,7 +40,6 @@ public class OnlineStaff extends JavaPlugin implements Listener {
     }
 
     public boolean startConnection(String hostname, String username, String password, String database) {
-        Connection con;
         Statement str;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
