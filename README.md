@@ -16,6 +16,10 @@ There is only one command currently that will allow reloading of the configurati
 
 **Description**: Reload OnlineStaff's configuration file.
 
+
+**Permission node for staff groups / players**
+**Permission**: onlinestaff.staff
+
 Web Usage
 ---------
 
