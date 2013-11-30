@@ -3,9 +3,10 @@ main: us.rpvp.onlinestaff.OnlineStaff
 description: Check whether staff are online and query it to a database available for web retrieval.
 url: http://realmsofpvp.net/
 author: ToniTang
-version: '0.1'
+version: '1.0'
 commands:
   osreload:
-    description: Reload the OnlineStaff configuration
     usage: /osreload
-    permission: onlinestaff.osreload
+    permission: onlinestaff.reload
+    description: Reload the OnlineStaff configuration
+    permission-message: "§4You don't have permission for this command."

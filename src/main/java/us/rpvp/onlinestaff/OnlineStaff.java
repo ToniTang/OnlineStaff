@@ -2,10 +2,7 @@ package us.rpvp.onlinestaff;
 
 import java.lang.String;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -52,7 +49,7 @@ public class OnlineStaff extends JavaPlugin implements Listener {
             str = con.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS `OnlineStaff` ("
                     + "  `player` varchar(16) NOT NULL,"
-                    + "  `last_online` varchar(16) NOT NULL,"
+                    + "  `last_online` datetime NOT NULL,"
                     + "  `is_online` tinyint(1) NOT NULL,"
                     + "  UNIQUE KEY `player` (`player`)"
                     + ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
@@ -74,8 +71,8 @@ public class OnlineStaff extends JavaPlugin implements Listener {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String Label, String[] args) {
-        if(sender.hasPermission("onlinestaff.reload")) {
-            if(cmd.getLabel().equalsIgnoreCase("osreload")) {
+        if(cmd.getLabel().equalsIgnoreCase("osreload")) {
+            if(sender.hasPermission("onlinestaff.reload")) {
                 sender.sendMessage(ChatColor.AQUA + "[OnlineStaff]" + ChatColor.GOLD + " Configuration reloaded.");
 
                 closeConnection();
@@ -90,23 +87,20 @@ public class OnlineStaff extends JavaPlugin implements Listener {
                 startConnection(hostname, username, password, database);
             }
         }
-        else {
-            sender.sendMessage(ChatColor.DARK_RED + "You don't have permission to do this!");
-        }
-        return false;
+        return true;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
         Statement str = this.con.createStatement();
-        String query = String.format("INSERT INTO `OnlineStaff` (player, last_online, is_online) VALUES ('%s', 'Currently Online', 1) ON DUPLICATE KEY UPDATE last_online = 'Currently Online', is_online = '1'", event.getPlayer().getName());
+        String query = String.format("INSERT INTO `OnlineStaff` (player, last_online, is_online) VALUES ('%s', NOW(), 1) ON DUPLICATE KEY UPDATE last_online = NOW(), is_online = '1'", event.getPlayer().getName());
         str.executeUpdate(query);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) throws SQLException {
         Statement str = this.con.createStatement();
-        String query = String.format("UPDATE `OnlineStaff` SET `last_online` = 'Just logged', `is_online`  = '0' WHERE player = '%s'", event.getPlayer().getName());
+        String query = String.format("UPDATE `OnlineStaff` SET `last_online` = NOW(), `is_online`  = '0' WHERE player = '%s'", event.getPlayer().getName());
         str.executeUpdate(query);
     }
 }
