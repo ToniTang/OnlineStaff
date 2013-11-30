@@ -10,3 +10,7 @@ commands:
     permission: onlinestaff.reload
     description: Reload the OnlineStaff configuration
     permission-message: "§4You don't have permission for this command."
+permissions:
+  onlinestaff.staff:
+    description: Permission node that allows onlinestaff to execute certain group or player
+    default: false

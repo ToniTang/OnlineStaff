@@ -92,15 +92,19 @@ public class OnlineStaff extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
-        Statement str = this.con.createStatement();
-        String query = String.format("INSERT INTO `OnlineStaff` (player, last_online, is_online) VALUES ('%s', NOW(), 1) ON DUPLICATE KEY UPDATE last_online = NOW(), is_online = '1'", event.getPlayer().getName());
-        str.executeUpdate(query);
+        if(event.getPlayer().hasPermission("onlinestaff.staff")) {
+            Statement str = this.con.createStatement();
+            String query = String.format("INSERT INTO `OnlineStaff` (player, last_online, is_online) VALUES ('%s', NOW(), 1) ON DUPLICATE KEY UPDATE last_online = NOW(), is_online = '1'", event.getPlayer().getName());
+            str.executeUpdate(query);
+        }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) throws SQLException {
-        Statement str = this.con.createStatement();
-        String query = String.format("UPDATE `OnlineStaff` SET `last_online` = NOW(), `is_online`  = '0' WHERE player = '%s'", event.getPlayer().getName());
-        str.executeUpdate(query);
+        if(event.getPlayer().hasPermission("onlinestaff.staff")) {
+            Statement str = this.con.createStatement();
+            String query = String.format("UPDATE `OnlineStaff` SET `last_online` = NOW(), `is_online`  = '0' WHERE player = '%s'", event.getPlayer().getName());
+            str.executeUpdate(query);
+        }
     }
 }
