@@ -43,7 +43,7 @@ public class OnlineStaff extends JavaPlugin implements Listener {
     public void startConnection(String hostname, String username, String password, String database) {
         Statement str;
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://" + hostname + ":3306/" + database, username, password);
 
             str = con.createStatement();
