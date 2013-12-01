@@ -13,7 +13,7 @@ if($result = $con->query($query)) {
 		else {
 			$isOnline = "Online";
 		}
-		$finalString = "<tr><td>".$row['player']."</td><td>".$row['last_online']."</td><td>".$isOnline."</td></tr>";
+		$finalString .= "<tr><td>".$row['player']."</td><td>".$row['last_online']."</td><td>".$isOnline."</td></tr>";
 	}
 }
 
