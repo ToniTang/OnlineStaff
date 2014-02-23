@@ -1,5 +1,10 @@
+## Change this to true after you have edited your database details below!
+configured: false
+
+## MySQL Connection Details
 mysql:
-    hostname: localhost
-    username: root
-    password: 
-    database: mc_onlinestaff
+  hostname: localhost
+  username: root
+  password: 
+  database: mc_onlinestaff
+  port: 3306
