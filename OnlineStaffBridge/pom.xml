@@ -1,18 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>us.rpvp.onlinestaff</groupId>
-    <artifactId>OnlineStaff</artifactId>
-    <version>1.5</version>
+    <parent>
+        <groupId>us.rpvp.onlinestaff</groupId>
+        <artifactId>OnlineStaff</artifactId>
+        <version>1.5</version>
+    </parent>
 
-    <name>OnlineStaff</name>
+    <artifactId>OnlineStaffBridge</artifactId>
     <url>http://realmsofpvp.net/</url>
 
     <packaging>pom</packaging>
 
     <modules>
-        <module>OnlineStaffBukkit</module>
-        <module>OnlineStaffBungee</module>
-        <module>OnlineStaffBridge</module>
+        <module>OnlineStaffBridgeBukkit</module>
+        <module>OnlineStaffBridgeBungee</module>
     </modules>
 
     <build>

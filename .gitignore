@@ -5,6 +5,6 @@
 *.war
 *.ear
 
-OnlineStaff.iml
+*.iml
 .idea/
 target/

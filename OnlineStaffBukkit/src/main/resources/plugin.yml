@@ -1,15 +1,17 @@
+author: ToniTang
 name: OnlineStaff
 main: us.rpvp.onlinestaff.OnlineStaff
 description: Check whether staff are online and query it to a database available for web retrieval.
 url: http://realmsofpvp.net/
-author: ToniTang
-version: '1.3'
+version: ${project.version}
+
 commands:
   osreload:
     usage: /osreload
     permission: onlinestaff.reload
     description: Reload the OnlineStaff configuration
     permission-message: "§4You don't have permission for this command."
+
 permissions:
   onlinestaff.staff:
     description: Permission node that allows onlinestaff to execute certain group or player

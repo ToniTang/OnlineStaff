@@ -1,0 +1,11 @@
+author: ToniTang
+name: OnlineStaff
+main: us.rpvp.onlinestaff.OnlineStaff
+description: Check whether staff are online and query it to a database available for web retrieval. (Bridge-Bukkit)
+url: http://realmsofpvp.net/
+version: ${project.version}
+
+permissions:
+  onlinestaff.staff:
+    description: Permission node that allows onlinestaff to execute certain group or player
+    default: false
