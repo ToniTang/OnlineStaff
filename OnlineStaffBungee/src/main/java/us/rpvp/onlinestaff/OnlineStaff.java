@@ -1,7 +1,7 @@
 package us.rpvp.onlinestaff;
 
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -63,7 +63,7 @@ public class OnlineStaff extends Plugin implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerJoin(final PostLoginEvent event) {
+	public void onPlayerJoin(final ServerConnectEvent event) {
 		if(event.getPlayer().hasPermission("onlinestaff.staff")) {
 			getProxy().getScheduler().runAsync(this, new Runnable() {
 				@Override
@@ -71,8 +71,7 @@ public class OnlineStaff extends Plugin implements Listener {
 					try {
 						Statement statement;
 						statement = con.createStatement();
-						String query = "INSERT INTO `OnlineStaff` (uuid, name, last_online, is_online, current_server) VALUES ('" + uuidToDbString(event.getPlayer().getUniqueId()) + "', '" + event.getPlayer().getName() + "', NOW(), 1, '" + event.getPlayer().getServer().getInfo().getName().toUpperCase() + "') ON DUPLICATE KEY UPDATE last_online = NOW(), is_online = '1'";
-						System.out.print(query);
+						String query = "INSERT INTO `OnlineStaff` (uuid, name, last_online, is_online, current_server) VALUES ('" + uuidToDbString(event.getPlayer().getUniqueId()) + "', '" + event.getPlayer().getName() + "', NOW(), 1, '" + event.getTarget().getName().toUpperCase() + "') ON DUPLICATE KEY UPDATE last_online = NOW(), is_online = '1', current_server = '" + event.getTarget().getName().toUpperCase() + "'";
 						statement.executeUpdate(query);
 					} catch(SQLException e) {
 						e.printStackTrace();
@@ -91,8 +90,7 @@ public class OnlineStaff extends Plugin implements Listener {
 					try {
 						Statement statement;
 						statement = con.createStatement();
-						String query = "UPDATE `OnlineStaff` SET name = '" + event.getPlayer().getName() + "', `last_online` = NOW(), `is_online`  = '0', `current_server` = null WHERE uuid = '" + uuidToDbString(event.getPlayer().getUniqueId()) + "'";
-						System.out.print(query);
+						String query = "UPDATE `OnlineStaff` SET name = '" + event.getPlayer().getName() + "', `last_online` = NOW(), `is_online`  = '0', `current_server` = 'OFFLINE' WHERE uuid = '" + uuidToDbString(event.getPlayer().getUniqueId()) + "'";
 						statement.executeUpdate(query);
 					} catch(SQLException e) {
 						e.printStackTrace();
