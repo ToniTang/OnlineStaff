@@ -1,7 +1,6 @@
 package us.rpvp.onlinestaff;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -21,6 +20,8 @@ public class OnlineStaff extends Plugin implements Listener {
 
 	private Connection con;
 
+	public String pluginChannel = "OnlineStaff";
+
 	public static File configFile;
 	public static Configuration config;
 	public static ConfigurationProvider configProvider;
@@ -30,8 +31,9 @@ public class OnlineStaff extends Plugin implements Listener {
 	public void onEnable() {
 		instance = this;
 
+		getProxy().registerChannel(pluginChannel);
 		getProxy().getPluginManager().registerCommand(this, new ReloadConfig());
-		getProxy().registerChannel("OnlineStaff");
+		getProxy().getPluginManager().registerListener(this, this);
 		setupConfig();
 
 		if(config.getBoolean("configured")) {
@@ -62,48 +64,40 @@ public class OnlineStaff extends Plugin implements Listener {
 
 	@EventHandler
 	public void onBridgeMessageReceived(PluginMessageEvent event) {
-		if(!event.getTag().equalsIgnoreCase("OnlineStaff")) {
+		System.out.print("OnlineStaff Bungee Bridge got a message");
+		if(!event.getTag().equalsIgnoreCase(pluginChannel)) {
 			return;
 		}
+		System.out.print("OnlineStaff Bungee Bridge got a message and was in the channel OnlineStaff");
 		DataInputStream in = new DataInputStream(new ByteArrayInputStream(event.getData()));
 		try {
+			final String eventType = in.readUTF();
 			final ProxiedPlayer player = getProxy().getPlayer(UUID.fromString(in.readUTF()));
-			if(player.hasPermission("onlinestaff.staff")) {
-				getProxy().getScheduler().runAsync(this, new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Statement statement;
-							statement = con.createStatement();
-							String query = "INSERT INTO `OnlineStaff` (uuid, name, last_online, is_online, current_server) VALUES ('" + uuidToDbString(player.getUniqueId()) + "', '" + player.getName() + "', NOW(), 1, '" + player.getServer().getInfo().getName().toUpperCase() + "') ON DUPLICATE KEY UPDATE last_online = NOW(), is_online = '1'";
-							statement.executeUpdate(query);
-						} catch(SQLException e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@EventHandler
-	public void onPlayerQuit(final PlayerDisconnectEvent event) {
-		if(event.getPlayer().hasPermission("onlinestaff.staff")) {
+			System.out.print(eventType);
+			System.out.print(player.getName());
 			getProxy().getScheduler().runAsync(this, new Runnable() {
 				@Override
 				public void run() {
 					try {
+						String query = null;
 						Statement statement;
 						statement = con.createStatement();
-						String query = "UPDATE `OnlineStaff` SET name = '" + event.getPlayer().getName() + "', `last_online` = NOW(), `is_online`  = '0', `current_server` = null WHERE uuid = '" + uuidToDbString(event.getPlayer().getUniqueId()) + "'";
+						switch(eventType.toLowerCase()) {
+							case "join":
+								query = "INSERT INTO `OnlineStaff` (uuid, name, last_online, is_online, current_server) VALUES ('" + uuidToDbString(player.getUniqueId()) + "', '" + player.getName() + "', NOW(), 1, '" + player.getName().toUpperCase() + "') ON DUPLICATE KEY UPDATE last_online = NOW(), is_online = '1', current_server = '" + player.getServer().getInfo().getName().toUpperCase() + "'";
+								break;
+							case "quit":
+								query = "UPDATE `OnlineStaff` SET name = '" + player.getName() + "', `last_online` = NOW(), `is_online`  = '0', `current_server` = 'OFFLINE' WHERE uuid = '" + uuidToDbString(player.getUniqueId()) + "'";
+								break;
+						}
 						statement.executeUpdate(query);
 					} catch(SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			});
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 

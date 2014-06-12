@@ -6,7 +6,6 @@
         <version>1.5</version>
     </parent>
 
-    <name>OnlineStaffBungee</name>
     <artifactId>OnlineStaffBridgeBungee</artifactId>
     <url>http://realmsofpvp.net/</url>
 
